@@ -10,6 +10,8 @@ const Input = ({placeholder, text, secureTextEntry, onChangeText}) => {
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
                 onChangeText={onChangeText}
+                autoCapitalize='none'
+                autoCorrect={false}
             />
         </View>
     );

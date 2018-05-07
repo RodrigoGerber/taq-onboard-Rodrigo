@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  Alert,
   View
 } from 'react-native';
 import Button from './src/components/Button'
@@ -23,10 +24,10 @@ export default class App extends Component {
   validate() {
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!regex.test(this.state.email)) {
-      console.log('erro_email');
+      alert('Email inválido.');
     }
-    if(this.state.password.length < 4) {
-      console.log('erro_senha');
+    else if(this.state.password.length < 4) {
+      alert('Senha inválida.');
     }
   }
 
