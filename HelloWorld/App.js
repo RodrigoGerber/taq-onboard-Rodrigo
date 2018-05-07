@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   Alert,
+  AsyncStorage,
   View
 } from 'react-native';
 import Button from './src/components/Button'
@@ -29,6 +30,29 @@ export default class App extends Component {
     else if(this.state.password.length < 4) {
       alert('Senha inválida.');
     }
+    else fetch('https://tq-template-server-sample.herokuapp.com/authenticate', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        rememberMe: false
+      }),
+    }).then((response) => response.json())
+        .then((responseJson) => {
+          if(responseJson.data) {
+            const token = AsyncStorage.getItem('@token:key');
+            //TODO: mudar para tela welcome
+          }
+          else
+            //alert();
+        })
+        .catch((error) => {
+          alert(console.error(error));
+        });
   }
 
   render() {
