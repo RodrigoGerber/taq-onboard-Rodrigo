@@ -45,6 +45,7 @@ export default class LoginScreen extends Component {
         .then((responseJson) => {
           console.log(responseJson);
           if(responseJson.data) {
+
             AsyncStorage.setItem('token' , responseJson.data.token)
             AsyncStorage.setItem('username' , responseJson.data.user.name)
             .then(() => this.onSuccess(responseJson))
@@ -66,8 +67,7 @@ export default class LoginScreen extends Component {
     //change page with token
     console.log(responseJson.data.user.name)
     this.props.navigation.navigate('Welcome', {
-      token: responseJson.data.token,
-      username: responseJson.data.user.name
+      responseJson: responseJson
     });
   }
 
