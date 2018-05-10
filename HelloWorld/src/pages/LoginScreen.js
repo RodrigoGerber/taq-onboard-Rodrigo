@@ -19,15 +19,21 @@ export default class LoginScreen extends Component {
     error: ''
   }
 
-  validate() {
+  validateInputs() {
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!regex.test(this.state.email)) {
       this.onError('Invalid Email.');
+      return false;
     }
     else if(this.state.password.length < 4) {
       this.onError('Invalid Password.');
+      return false;
     }
-    else fetch('https://tq-template-server-sample.herokuapp.com/authenticate', {
+    return true;
+  }
+
+  serverAuthorization() {
+    fetch('https://tq-template-server-sample.herokuapp.com/authenticate', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -61,8 +67,8 @@ export default class LoginScreen extends Component {
       password: '',
       loading: false
     });
-    this.props.navigation.navigate('Welcome', {
-      responseJson: responseJson
+    this.props.navigation.navigate('UsersList', {
+      responseJson: responseJson,
     });
   }
 
@@ -78,7 +84,9 @@ export default class LoginScreen extends Component {
       error: '',
       loading: true
     })
-    this.validate();
+    if(this.validateInputs()) {
+      this.serverAuthorization();
+    }
   }
 
   renderButton() {
@@ -93,8 +101,6 @@ export default class LoginScreen extends Component {
       />
     );
   }
-
-
 
   render() {
     return (
@@ -160,4 +166,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { LoginScreen, styles };
+export { LoginScreen };

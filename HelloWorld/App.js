@@ -8,8 +8,7 @@ import {
   View
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import LoginScreen from './src/pages/LoginScreen'
-import WelcomeScreen from './src/pages/WelcomeScreen'
+import { LoginScreen, UsersList, UserDetail } from './src/pages/';
 
 export default class App extends Component {
   render() {
@@ -21,7 +20,10 @@ const RootStack = createStackNavigator({
   Home: {
     screen: LoginScreen
   },
-  Welcome: {
-    screen: WelcomeScreen
+  UsersList: {
+    screen: UsersList
+  },
+  UserDetail: {
+    screen: UserDetail
   }
 });

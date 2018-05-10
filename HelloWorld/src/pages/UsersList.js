@@ -1,36 +1,42 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 
 
-export default class WelcomeScreen extends Component {
+export default class UsersList extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: []
         }
-        this.getList();
+        const { navigation } = this.props;
+        const responseJson = navigation.getParam('responseJson', '');
+        this.getList(responseJson);
     }
     
-
     renderItem = ({item}) => {
         return (
-            <View style={styles.view}>
-              <Text style={styles.nameText}>
-                Name: {item.name}
-              </Text>
-              <Text style={styles.roleText}>
-                Role: {item.role}
-              </Text>
-            </View>
+            <TouchableOpacity onPress={() => this.onButtonPress(item.id)}>
+                <View style={styles.view}>
+                  <Text style={styles.nameText}>
+                    Name: {item.name}
+                  </Text>
+                  <Text style={styles.roleText}>
+                    Role: {item.role}
+                  </Text>
+                </View>
+            </TouchableOpacity>
         );
     }
 
-    getList() {
-        const { navigation } = this.props;
-        const responseJson = navigation.getParam('responseJson', '');
+    onButtonPress(id) {
+        this.props.navigation.navigate('UserDetail', {
+            userId: id
+        });
+    }
 
+    getList(responseJson) {
         fetch('https://tq-template-server-sample.herokuapp.com/users?pagination={"page":0 , "window":100}', {
             method: 'GET',
             headers: {
@@ -92,4 +98,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { WelcomeScreen }
+export { UsersList }
