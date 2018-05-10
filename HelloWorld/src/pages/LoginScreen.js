@@ -13,8 +13,8 @@ import { Button, Input, Spinner } from '../components/'
 
 export default class LoginScreen extends Component {
   state = {
-    email: '',
-    password: '',
+    email: 'admin@taqtile.com',
+    password: '1111',
     loading: false,
     error: ''
   }
@@ -39,11 +39,9 @@ export default class LoginScreen extends Component {
         rememberMe: false
       }),
     }).then((response) => {
-        console.log('Código de resposta:', response.status);
         return(response.json());
     })
         .then((responseJson) => {
-          console.log(responseJson);
           if(responseJson.data) {
             AsyncStorage.setItem('token' , responseJson.data.token)
             AsyncStorage.setItem('username' , responseJson.data.user.name)
@@ -63,8 +61,6 @@ export default class LoginScreen extends Component {
       password: '',
       loading: false
     });
-    //change page with token
-    console.log(responseJson.data.user.name)
     this.props.navigation.navigate('Welcome', {
       responseJson: responseJson
     });

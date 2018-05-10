@@ -5,6 +5,15 @@ import LoginScreen from './LoginScreen';
 
 
 export default class WelcomeScreen extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: []
+        }
+        this.getList();
+    }
+    
+
     renderItem = ({item}) => {
         return (
             <View style={styles.view}>
@@ -12,37 +21,50 @@ export default class WelcomeScreen extends Component {
                 Name: {item.name}
               </Text>
               <Text style={styles.roleText}>
-                Role: {item.role}  
+                Role: {item.role}
               </Text>
             </View>
         );
-      }
-      
+    }
+
+    getList() {
+        const { navigation } = this.props;
+        const responseJson = navigation.getParam('responseJson', '');
+
+        fetch('https://tq-template-server-sample.herokuapp.com/users?pagination={"page":0 , "window":100}', {
+            method: 'GET',
+            headers: {
+              Authorization: responseJson.data.token,
+            }
+        }).then((response) => {
+            return(response.json());
+        }).then((responseUserList) => {
+            if(responseUserList.data) {
+              this.setState({data: responseUserList.data});
+            }
+            else {
+                alert(responseUserList.errors[0].message);
+                this.props.navigation.goBack();
+                return null
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            return null
+        });
+    }
+
     render() {
-        //const { navigation } = this.props;
-        //const responseJson = navigation.getParam('responseJson', '');   
-    
         return (
-          <FlatList
-            style={styles.container}
-            data={users}
-            renderItem={this.renderItem}
-            keyExtractor={extractKey}
-          />
+            <FlatList
+              style={styles.container}
+              data={this.state.data}
+              renderItem={this.renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
         );
     }
 }
-
-
-const users = [
-    {id: '0', name: 'Rodrigo', role: 'Admin'},
-    {id: '1', name: 'Gabriel', role: 'Trainee'},
-    {id: '2', name: 'Alexandre', role: 'Trainee'},
-    {id: '3', name: 'Leandro', role: 'Trainee'},
-    {id: '4', name: 'Tiba', role: 'Trainer'},
-]
-  
-const extractKey = ({id}) => id
   
 const styles = StyleSheet.create({
   container: {
