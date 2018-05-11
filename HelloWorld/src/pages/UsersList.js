@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen';
+import { Header } from '../components/'
 
 
 export default class UsersList extends Component {
@@ -12,31 +13,51 @@ export default class UsersList extends Component {
         }
         const { navigation } = this.props;
         const responseJson = navigation.getParam('responseJson', '');
-        this.getList(responseJson);
+        this.getUsersList(responseJson);
     }
     
     renderItem = ({item}) => {
         return (
             <TouchableOpacity onPress={() => this.onButtonPress(item.id)}>
                 <View style={styles.view}>
-                  <Text style={styles.nameText}>
-                    Name: {item.name}
-                  </Text>
-                  <Text style={styles.roleText}>
-                    Role: {item.role}
-                  </Text>
+                    <View style={ {
+                        flexDirection: 'row',
+                        flex: 1
+                    }
+                    }>                        
+                        <Text style={styles.nameLabel}>
+                          Name: 
+                        </Text>
+                        <Text style={styles.nameText}>
+                          {item.name}
+                        </Text>
+                    </View>
+                    <View style={ {
+                        flexDirection: 'row',
+                        flex: 1
+                    }
+                    }>
+                        <Text style={styles.roleLabel}>
+                          Role: 
+                        </Text>
+                        <Text style={styles.roleText}>
+                          {item.role}
+                        </Text>
+                    </View>
                 </View>
             </TouchableOpacity>
         );
     }
 
     onButtonPress(id) {
+        const responseJson = this.props.navigation.getParam('responseJson', '');
         this.props.navigation.navigate('UserDetail', {
-            userId: id
+            userId: id,
+            responseJson: responseJson
         });
     }
 
-    getList(responseJson) {
+    getUsersList(responseJson) {
         fetch('https://tq-template-server-sample.herokuapp.com/users?pagination={"page":0 , "window":100}', {
             method: 'GET',
             headers: {
@@ -62,40 +83,56 @@ export default class UsersList extends Component {
 
     render() {
         return (
-            <FlatList
-              style={styles.container}
-              data={this.state.data}
-              renderItem={this.renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
+            <View style={styles.container}>
+                <Header text= 'Users List'/>
+                <FlatList
+                  style={styles.listContainer}
+                  data={this.state.data}
+                  renderItem={this.renderItem}
+                  keyExtractor={(item) => item.id.toString()}
+                />
+            </View>
         );
     }
 }
   
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black'
-  },
-  view: {
-    padding: 15,
-    marginBottom: 5,
-    marginTop: 5,
-    backgroundColor: 'black',
-    borderColor: '#33F4C0',
-    borderRadius: 5,
-    borderWidth: 2
-  },
-  nameText: {
-    color: '#33F4C0',
-    fontSize: 18,
-    flex: 1
-  },
-  roleText: {
-    color: '#33F4C0',
-    fontSize: 16,
-    flex: 1
-  }
+    container: {
+        flex: 1,
+        backgroundColor: 'black'
+    },
+    listContainer: {
+        borderWidth: 2,
+        borderColor: '#33F4C0',
+    },
+    view: {
+        padding: 15,
+        margin: 10,
+        backgroundColor: 'black',
+        borderColor: 'white',
+        borderRadius: 5,
+        borderWidth: 3,
+    },
+    nameLabel: {
+        color: 'white',
+        fontSize: 18,
+    },
+    nameText: {
+        color: '#33F4C0',
+        fontSize: 18,
+        marginLeft: 5,
+        fontWeight: 'bold',
+    },
+    roleLabel: {
+        color: 'white',
+        fontSize: 16,
+    },
+    roleText: {
+        color: '#33F4C0',
+        fontSize: 16,
+        marginLeft: 5,
+        fontWeight: 'bold',
+    },
 })
 
 export { UsersList }

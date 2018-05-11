@@ -67,6 +67,7 @@ export default class LoginScreen extends Component {
       password: '',
       loading: false
     });
+    console.log('O token é: '+JSON.stringify(responseJson.data.token));
     this.props.navigation.navigate('UsersList', {
       responseJson: responseJson,
     });
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: '#33F4C0',
+    color: 'white',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center'

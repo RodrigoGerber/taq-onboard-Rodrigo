@@ -8,7 +8,7 @@ const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
             <TextInput
                 style={styles.inputBar}
                 placeholder={placeholder}
-                placeholderTextColor= '#1A7D62'
+                placeholderTextColor= 'white'
                 secureTextEntry={secureTextEntry}
                 onChangeText={onChangeText}
                 value={value}
@@ -22,15 +22,19 @@ const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
 const styles = StyleSheet.create({
     inputBar: {
         padding: 10,
-        backgroundColor: '#7DF8D7',
-        marginVertical: 10,
+        backgroundColor: 'black',
+        borderBottomWidth: 2,
+        borderBottomColor: '#33F4C0',
+        marginBottom: 10,
         height: 40,
-        width: 300
+        width: 300,
+        color: 'white'
     },
     inputName: {
         fontSize: 14,
         color: '#33F4C0',
-        marginLeft: 2
+        marginLeft: 3,
+        marginTop: 5,
     }
 });
 
