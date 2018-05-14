@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Switch } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Header, Input, Button, Spinner} from '../components';
 import Events from '../../events.js'
@@ -11,7 +11,7 @@ export default class UserCreation extends Component {
             email: '',
             password: '',
             name: '',
-            role: '',
+            roleAdmin: false,
             error: '',
             loading: false
         }
@@ -32,10 +32,6 @@ export default class UserCreation extends Component {
             this.onError('Invalid Password.');
             return false;
         }
-        else if(this.state.role != 'admin' && this.state.role != 'user') {
-            this.onError('Invalid Role.');
-            return false;
-        }
         return true;
     }
 
@@ -52,7 +48,7 @@ export default class UserCreation extends Component {
               email: this.state.email,
               password: this.state.password,
               name: this.state.name,
-              role: this.state.role
+              role: this.setRole()
             }),
           }).then((response) => {
               return(response.json());
@@ -106,6 +102,16 @@ export default class UserCreation extends Component {
         );
     }
 
+    toggleSwitchAdmin = (value) => {
+        this.setState({roleAdmin: value})
+     }
+
+    setRole = () => {
+        if(this.state.roleAdmin)
+            return 'admin';
+        else return 'user';
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -132,13 +138,15 @@ export default class UserCreation extends Component {
                         onChangeText={(password) => this.setState({password})}
                         value={this.state.password}
                     />
-                    <Input
-                        placeholder='admin/user'
-                        text='Role'
-                        secureTextEntry={false}
-                        onChangeText={(role) => this.setState({role})}
-                        value={this.state.role}
-                    />
+                    <View style={{flexDirection: 'row', marginVertical: 15}}>
+                        <Text style={styles.adminLabel}>Admin?</Text>
+                        <Switch
+                            onValueChange= {this.toggleSwitchAdmin}
+                            value= {this.state.roleAdmin}
+                            onTintColor= '#33F4C0'
+                            style= {{height: 20}}
+                        />
+                    </View>
                     <Text style={styles.errorText}>
                         {this.state.error}
                     </Text>
@@ -161,6 +169,13 @@ const styles = StyleSheet.create({
         padding: 10,
         alignSelf: 'center',
         flexWrap: 'wrap'
+    },
+    adminLabel: {
+        fontSize: 14,
+        color: '#33F4C0',
+        marginLeft: 3,
+        marginRight: 5,
+        marginTop: 5,
     }
 })
 
