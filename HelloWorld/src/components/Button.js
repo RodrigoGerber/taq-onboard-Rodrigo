@@ -27,8 +27,9 @@ const styles = {
     borderRadius: 5,
     borderWidth: 2,
     borderColor: '#33F4C0',
+    alignSelf: 'center',
     margin: 5,
-    width: 300
+    width: 250
   }
 };
 

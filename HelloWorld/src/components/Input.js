@@ -3,12 +3,12 @@ import { Text, TextInput, View, StyleSheet } from 'react-native';
 
 const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.inputName}>{text}</Text>
             <TextInput
                 style={styles.inputBar}
                 placeholder={placeholder}
-                placeholderTextColor= 'white'
+                placeholderTextColor= '#D3D3D3'
                 secureTextEntry={secureTextEntry}
                 onChangeText={onChangeText}
                 value={value}
@@ -20,6 +20,9 @@ const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'flex-start'
+    },
     inputBar: {
         padding: 10,
         backgroundColor: 'black',
@@ -28,7 +31,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         height: 40,
         width: 300,
-        color: 'white'
+        color: 'white',
+        alignSelf: 'center'
     },
     inputName: {
         fontSize: 14,

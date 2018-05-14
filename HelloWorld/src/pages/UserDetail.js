@@ -26,7 +26,6 @@ export default class UserDetail extends Component {
         }).then((responseUserDetail) => {
             if(responseUserDetail.data) {
               this.setState({data: responseUserDetail.data});
-              console.log(responseUserDetail.data);
             }
             else {
                 alert(responseUserDetail.errors[0].message);

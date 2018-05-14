@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen';
-import { Header } from '../components/'
+import { Header, Button } from '../components/'
+import Events from '../../events'
 
 
 export default class UsersList extends Component {
@@ -11,6 +12,7 @@ export default class UsersList extends Component {
         this.state = {
             data: []
         }
+        this.subscription = Events.subscribe('UsersListChanged', () => this.getUsersList(responseJson))
         const { navigation } = this.props;
         const responseJson = navigation.getParam('responseJson', '');
         this.getUsersList(responseJson);
@@ -18,7 +20,7 @@ export default class UsersList extends Component {
     
     renderItem = ({item}) => {
         return (
-            <TouchableOpacity onPress={() => this.onButtonPress(item.id)}>
+            <TouchableOpacity onPress={() => this.onUserButtonPress(item.id)}>
                 <View style={styles.view}>
                     <View style={ {
                         flexDirection: 'row',
@@ -49,12 +51,17 @@ export default class UsersList extends Component {
         );
     }
 
-    onButtonPress(id) {
+    onUserButtonPress(id) {
         const responseJson = this.props.navigation.getParam('responseJson', '');
         this.props.navigation.navigate('UserDetail', {
             userId: id,
             responseJson: responseJson
         });
+    }
+
+    onCreateButtonPress() {
+        const token = this.props.navigation.getParam('token', '');
+        this.props.navigation.navigate('UserCreation', {token: token})
     }
 
     getUsersList(responseJson) {
@@ -91,6 +98,10 @@ export default class UsersList extends Component {
                   renderItem={this.renderItem}
                   keyExtractor={(item) => item.id.toString()}
                 />
+                <Button 
+                    onPress = {() => this.onCreateButtonPress()}
+                    text = 'Create New User'
+                />
             </View>
         );
     }
@@ -99,11 +110,13 @@ export default class UsersList extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        alignItems: 'center'
     },
     listContainer: {
         borderWidth: 2,
         borderColor: '#33F4C0',
+        alignSelf: 'stretch'
     },
     view: {
         padding: 15,

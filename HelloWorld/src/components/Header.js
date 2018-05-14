@@ -12,6 +12,7 @@ const Header = ({text}) => {
 const styles = StyleSheet.create({
     headerView: {
         alignItems: 'center',
+        alignSelf: 'stretch',
         justifyContent: 'center',
         backgroundColor: 'black',
         borderColor: '#33F4C0',

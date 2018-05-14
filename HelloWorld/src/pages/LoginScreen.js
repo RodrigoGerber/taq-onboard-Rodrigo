@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button, Input, Spinner } from '../components/'
+import { events } from '../../events'
 
 
 export default class LoginScreen extends Component {
@@ -67,9 +68,9 @@ export default class LoginScreen extends Component {
       password: '',
       loading: false
     });
-    console.log('O token é: '+JSON.stringify(responseJson.data.token));
     this.props.navigation.navigate('UsersList', {
       responseJson: responseJson,
+      token: responseJson.data.token
     });
   }
 

@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  Alert,
-  AsyncStorage,
-  View
-} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { LoginScreen, UsersList, UserDetail } from './src/pages/';
+import { LoginScreen, UsersList, UserDetail, UserCreation } from './src/pages/';
 
 export default class App extends Component {
   render() {
@@ -25,5 +17,8 @@ const RootStack = createStackNavigator({
   },
   UserDetail: {
     screen: UserDetail
+  },
+  UserCreation: {
+    screen: UserCreation
   }
 });
