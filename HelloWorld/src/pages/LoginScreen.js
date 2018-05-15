@@ -50,6 +50,7 @@ export default class LoginScreen extends Component {
     })
         .then((responseJson) => {
           if(responseJson.data) {
+            console.log(responseJson.data.token);
             AsyncStorage.setItem('token' , responseJson.data.token)
             AsyncStorage.setItem('username' , responseJson.data.user.name)
             .then(() => this.onSuccess(responseJson))

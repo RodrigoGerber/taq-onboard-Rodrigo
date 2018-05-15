@@ -7,13 +7,31 @@ import Events from '../../events.js'
 export default class UserCreation extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            email: '',
-            password: '',
-            name: '',
-            roleAdmin: false,
-            error: '',
-            loading: false
+        const { navigation } = this.props;
+        this.token = navigation.getParam('token', '')
+        this.data = navigation.getParam('data', '')
+        this.userId = navigation.getParam('userId', '')
+        if(this.data) {
+            this.state = {
+                email: this.data.data.email,
+                password: this.data.data.password,
+                name: this.data.data.name,
+                roleAdmin: this.getBooleanRole(this.data),
+                error: '',
+                loading: false,
+                editing: true
+            }
+        }
+        else {
+            this.state = {
+                email: '',
+                password: '',
+                name: '',
+                roleAdmin: false,
+                error: '',
+                loading: false,
+                editing: false
+            }
         }
     }
 
@@ -35,14 +53,12 @@ export default class UserCreation extends Component {
         return true;
     }
 
-    serverAuthorization() {
-        const { navigation } = this.props;
-        const token = navigation.getParam('token', '');
+    serverPost() {
         fetch('https://tq-template-server-sample.herokuapp.com/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: token,
+              Authorization: this.token,
             },
             body: JSON.stringify({
               email: this.state.email,
@@ -55,6 +71,33 @@ export default class UserCreation extends Component {
           })
               .then((responseJson) => {
                 if(responseJson.errors[0].name === 'EmailError') {
+                  this.onSuccess()
+                }
+                else this.onError(responseJson.errors[0].original);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+    }
+
+    serverPut() {
+        fetch('https://tq-template-server-sample.herokuapp.com/users/'+this.userId, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: this.token,
+            },
+            body: JSON.stringify({
+              email: this.state.email,
+              password: this.state.password,
+              name: this.state.name,
+              role: this.setRole()
+            }),
+          }).then((response) => {
+              return(response.json());
+          })
+              .then((responseJson) => {
+                if(responseJson.data) {
                   this.onSuccess()
                 }
                 else this.onError(responseJson.errors[0].original);
@@ -78,38 +121,61 @@ export default class UserCreation extends Component {
           error: error,
           loading: false
         });
-      }
+    }
 
-    onButtonPress() {
+    onCreateButtonPress() {
         this.setState({
           error: '',
           loading: true
         })
         if(this.validateInputs()) {
-            this.serverAuthorization();
+            this.serverPost();
+        }
+    }
+
+    onSaveButtonPress() {
+        this.setState({
+          error: '',
+          loading: true
+        })
+        if(this.validateInputs()) {
+            this.serverPut();
         }
     }
 
     renderButton() {
         if(this.state.loading)
             return <Spinner size='small'/>;
-        
-        return(
+        else if(this.state.editing)
+            return(
+                <Button 
+                    onPress = {() => this.onSaveButtonPress()}
+                    text = 'Save'
+                />
+            );
+        else return(
             <Button 
-                onPress = {() => this.onButtonPress()}
-                text = 'Create'
+                    onPress = {() => this.onCreateButtonPress()}
+                    text = 'Create'
             />
-        );
+        )
+        
     }
 
     toggleSwitchAdmin = (value) => {
         this.setState({roleAdmin: value})
-     }
+    }
 
     setRole = () => {
         if(this.state.roleAdmin)
             return 'admin';
         else return 'user';
+    }
+
+    getBooleanRole = (data) => {
+        if(data.data.role == 'admin')
+            return true;
+        else return false;
     }
 
     render() {
@@ -144,7 +210,7 @@ export default class UserCreation extends Component {
                             onValueChange= {this.toggleSwitchAdmin}
                             value= {this.state.roleAdmin}
                             onTintColor= '#33F4C0'
-                            style= {{height: 20}}
+                            style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
                         />
                     </View>
                     <Text style={styles.errorText}>

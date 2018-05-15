@@ -61,7 +61,7 @@ export default class UsersList extends Component {
 
     onCreateButtonPress() {
         const token = this.props.navigation.getParam('token', '');
-        this.props.navigation.navigate('UserCreation', {token: token})
+        this.props.navigation.navigate('UserCreation', {token: token, data: null})
     }
 
     getUsersList(responseJson) {
