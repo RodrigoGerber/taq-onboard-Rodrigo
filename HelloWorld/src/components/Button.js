@@ -16,19 +16,21 @@ const Button = ({ onPress, text }) => {
 const styles = {
   textStyle: {
     alignSelf: 'center',
-    color: '#000',
+    color: 'white',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
     paddingTop: 10,
     paddingBottom: 10
   },
   buttonStyle: {
-    backgroundColor: '#ff6666',
+    backgroundColor: 'black',
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#000',
-    margin: 5
+    borderWidth: 2,
+    borderColor: '#33F4C0',
+    alignSelf: 'center',
+    margin: 5,
+    width: 250
   }
 };
 
-export default Button;
+export { Button };

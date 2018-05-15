@@ -1,15 +1,17 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet } from 'react-native';
 
-const Input = ({placeholder, text, secureTextEntry, onChangeText}) => {
+const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.inputName}>{text}</Text>
             <TextInput
                 style={styles.inputBar}
                 placeholder={placeholder}
+                placeholderTextColor= '#D3D3D3'
                 secureTextEntry={secureTextEntry}
                 onChangeText={onChangeText}
+                value={value}
                 autoCapitalize='none'
                 autoCorrect={false}
             />
@@ -18,18 +20,26 @@ const Input = ({placeholder, text, secureTextEntry, onChangeText}) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'flex-start'
+    },
     inputBar: {
         padding: 10,
-        backgroundColor: '#ffb3b3',
-        marginVertical: 10,
+        backgroundColor: 'black',
+        borderBottomWidth: 2,
+        borderBottomColor: '#33F4C0',
+        marginBottom: 10,
         height: 40,
-        width: 300
+        width: 300,
+        color: 'white',
+        alignSelf: 'center'
     },
     inputName: {
         fontSize: 14,
-        color: '#000',
-        marginLeft: 2
+        color: '#33F4C0',
+        marginLeft: 3,
+        marginTop: 5,
     }
 });
 
-export default Input;
+export { Input };
