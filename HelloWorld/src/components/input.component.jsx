@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, TextInput, View, StyleSheet } from 'react-native';
 
-const Input = ({placeholder, text, secureTextEntry, onChangeText, value}) => {
+export default class Input extends Component {
+  render() {
     return (
         <View style={styles.container}>
-            <Text style={styles.inputName}>{text}</Text>
+            <Text style={styles.inputName}>{this.props.text}</Text>
             <TextInput
                 style={styles.inputBar}
-                placeholder={placeholder}
+                placeholder={this.props.placeholder}
                 placeholderTextColor= '#D3D3D3'
-                secureTextEntry={secureTextEntry}
-                onChangeText={onChangeText}
-                value={value}
+                secureTextEntry={this.props.secureTextEntry}
+                onChangeText={this.handleTextChanged}
                 autoCapitalize='none'
                 autoCorrect={false}
+                value={this.props.value}
             />
         </View>
     );
+  }
+
+  handleTextChanged = (value) => {
+    this.props.onChangeText(value);
+  }
 };
 
 const styles = StyleSheet.create({

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import LoginScreen from './LoginScreen';
 import { Header, Button } from '../components/'
 import Events from '../../events'
 
@@ -17,37 +16,29 @@ export default class UsersList extends Component {
         const responseJson = navigation.getParam('responseJson', '');
         this.getUsersList(responseJson);
     }
-    
+
     renderItem = ({item}) => {
         return (
-            <TouchableOpacity onPress={() => this.onUserButtonPress(item.id)}>
-                <View style={styles.view}>
-                    <View style={ {
-                        flexDirection: 'row',
-                        flex: 1
-                    }
-                    }>                        
-                        <Text style={styles.nameLabel}>
-                          Name: 
-                        </Text>
-                        <Text style={styles.nameText}>
-                          {item.name}
-                        </Text>
-                    </View>
-                    <View style={ {
-                        flexDirection: 'row',
-                        flex: 1
-                    }
-                    }>
-                        <Text style={styles.roleLabel}>
-                          Role: 
-                        </Text>
-                        <Text style={styles.roleText}>
-                          {item.role}
-                        </Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onUserButtonPress(item.id)}>
+            <View style={styles.view}>
+              <View style={{ flexDirection: 'row', flex: 1 }}>
+                <Text style={styles.nameLabel}>
+                  Name:
+                </Text>
+                <Text style={styles.nameText}>
+                  {item.name}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', flex: 1 }}>
+                <Text style={styles.roleLabel}>
+                  Role:
+                </Text>
+                <Text style={styles.roleText}>
+                  {item.role}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         );
     }
 
@@ -98,7 +89,7 @@ export default class UsersList extends Component {
                   renderItem={this.renderItem}
                   keyExtractor={(item) => item.id.toString()}
                 />
-                <Button 
+                <Button
                     onPress = {() => this.onCreateButtonPress()}
                     text = 'Create New User'
                 />
@@ -106,7 +97,7 @@ export default class UsersList extends Component {
         );
     }
 }
-  
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

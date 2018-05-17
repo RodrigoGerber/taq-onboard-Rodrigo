@@ -3,9 +3,9 @@ import {
   AsyncStorage
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { events } from '../../events'
-import serverRequest from '../../serverRequest';
-import { LoginScreen } from '../pages/';
+import { events } from '../../../events'
+import serverRequest from '../../../serverRequest';
+import { LoginScreen } from './login.page';
 
 
 export default class LoginScreenContainer extends Component {
@@ -58,7 +58,7 @@ export default class LoginScreenContainer extends Component {
       serverRequest.serverLogin(this.state.email, this.state.password)
       .then((responseJson) => {
         console.log(responseJson)
-      
+
         if(responseJson.data) {
             console.log(responseJson.data.token);
             AsyncStorage.setItem('token' , responseJson.data.token)

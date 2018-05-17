@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { LoginScreen, UsersList, UserDetail, UserCreation } from './src/pages/';
-import LoginScreenContainer from './src/containers/LoginScreenContainer';
+import { UsersList, UserDetail, UserCreation } from './src/pages/';
+import { LoginScreenContainer } from './src/modules/authentication';
 
 export default class App extends Component {
   render() {
